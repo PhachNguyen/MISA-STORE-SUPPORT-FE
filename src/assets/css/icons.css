@@ -1,0 +1,71 @@
+/* ICON-ms : File cũ */
+
+.icon-default {
+  background-image: url('../icons/ICON.svg');
+}
+
+.icon {
+  /* Đổi màu */
+  mask-image: url();
+}
+/* Header */
+
+.icon-menu {
+  background: url('../icons/Icon.svg') no-repeat -82px -82px;
+  width: 16px;
+  height: 16px;
+}
+
+/* Sidebar */
+.icon-convert {
+  background: url('../icons/ICON-ms.svg') no-repeat -27px -847px;
+  width: 18px;
+  height: 18px;
+}
+.icon-shopping {
+  background: url('../icons/ICON-ms.svg') no-repeat -291px -411px;
+  width: 19px;
+  height: 18px;
+}
+
+.icon-promotion {
+  background: url('../icons/ICON-ms.svg') no-repeat -302px -658px;
+  width: 16px;
+  height: 16px;
+}
+
+.icon-data-demo {
+  background: url('../icons/Icon.svg') no-repeat -138px -527px;
+  width: 17px;
+  height: 17px;
+}
+/*  Main-content */
+.icon-share {
+  background: url('../icons/Icon.svg') no-repeat -2px -42px;
+  width: 16px;
+  height: 16px;
+}
+.icon-sharing-efficiency {
+  background: url('../icons/ICON-ms.svg') no-repeat -4px -849px;
+  width: 17px;
+  height: 15px;
+}
+/* Đổi màu  */
+.icon-share.active {
+  mask: url('../icons/Icon.svg') no-repeat -2px -42px;
+  background: #34b057;
+  width: 16px;
+  height: 16px;
+}
+.icon-sharing-efficiency.active {
+  mask: url('../icons/ICON-ms.svg') no-repeat -4px -849px;
+  background: #34b057;
+  width: 17px;
+  height: 15px;
+}
+
+.icon-sreach{
+  	background: url('../icons/Icon.svg') no-repeat -2px -475px;
+	width: 20px;
+	height: 20px;
+}
