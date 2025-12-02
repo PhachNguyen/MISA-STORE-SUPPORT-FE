@@ -1,10 +1,12 @@
 <script setup>
 const props = defineProps({
+  // Header
   columns: {
     type: Array,
     default: () => [],
     // Item structure: { key, label, width, align, filterable, type }
   },
+  // Row
   data: {
     type: Array,
     default: () => [],
@@ -34,38 +36,38 @@ const getIconClass = (key) => {
       <table class="ms-table">
         <thead>
           <tr>
-            <template v-for="(col, index) in columns" :key="'head-' + index">
-              <th
-                v-if="!col.filterable"
-                rowspan="2"
-                :style="{ width: col.width, minWidth: col.width, textAlign: 'center' }"
-                class="header-merged"
-              >
+            <th
+              v-for="(col, idx) in columns"
+              :key="idx"
+              :rowspan="col.filterable ? 1 : 2"
+              :style="{
+                width: col.width,
+                minWidth: col.width,
+                textAlign: 'center',
+              }"
+              :class="col.filterable ? 'header-title' : 'header-merged'"
+            >
+              <!-- Nếu KHÔNG filter được -->
+              <template v-if="!col.filterable">
                 {{ col.label }}
                 <i class="icon-sort">⇅</i>
-              </th>
+              </template>
 
-              <th
-                v-else
-                :style="{ width: col.width, minWidth: col.width, textAlign: 'center' }"
-                class="header-title"
-              >
+              <!-- Nếu CÓ filter -->
+              <template v-else>
                 <div class="display-flex">
-                  <div>
-                    {{ col.label }}
-                  </div>
+                  <div>{{ col.label }}</div>
                   <div class="icon-test"></div>
                 </div>
-              </th>
-            </template>
+              </template>
+            </th>
           </tr>
 
+          <!-- Dòng filter -->
           <tr>
-            <template v-for="(col, index) in columns" :key="'filter-' + index">
-              <th v-if="col.filterable" class="header-filter">
-                <div class="icon-test"></div>
-              </th>
-            </template>
+            <th v-for="(col, idx) in columns" :key="'filter-' + idx" class="header-filter">
+              <div v-if="col.filterable" class="icon-test"></div>
+            </th>
           </tr>
         </thead>
 
