@@ -32,9 +32,10 @@
 
         <li class="menu-item">
           <!-- <span class="icon menu-demo"></span> -->
-          <div class="icon-data-demo"></div>
+          <div class="icon-copy"></div>
           <span class="label">Tạo dữ liệu demo</span>
         </li>
+        <!-- <i class="pi pi-copy"></i> -->
       </ul>
     </nav>
   </aside>

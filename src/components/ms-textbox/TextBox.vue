@@ -67,9 +67,9 @@ const props = defineProps({
   margin-left: 2px;
 }
 .input:disabled {
-  background-color: #ebebe4; /* Hoặc #f5f5f5 - Màu xám giống ảnh */
-  color: #555; /* Màu chữ đậm hơn placeholder */
-  cursor: not-allowed; /* Chuột hiện dấu cấm */
+  background-color: #ebebe4; 
+  color: #555; 
+  cursor: not-allowed; 
   border-color: #dcdcdc;
 }
 </style>
