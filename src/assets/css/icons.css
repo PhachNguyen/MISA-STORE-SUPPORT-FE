@@ -94,3 +94,18 @@
   width: 17px;
   height: 16px;
 }
+.icon-filter {
+  background: url('../icons/Icon.svg') no-repeat -2px -84px;
+  width: 16px;
+  height: 7px;
+}
+.icon-view {
+  background: url('../icons/Icon.svg') no-repeat -316px -548px;
+  width: 20px;
+  height: 14px;
+}
+.icon-lead {
+  background: url('../icons/Icon.svg') no-repeat -170px -122px;
+  width: 20px;
+  height: 20px;
+}

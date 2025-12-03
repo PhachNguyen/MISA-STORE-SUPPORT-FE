@@ -1,4 +1,5 @@
 <script setup>
+import MsButton from '../ms-button/MsButton.vue'
 const props = defineProps({
   // Header
   columns: {
@@ -17,14 +18,14 @@ const props = defineProps({
   },
 })
 
-// Hàm map key sang class icon (Bạn thay bằng tên class icon thật của bạn)
+// set Icon
 const getIconClass = (key) => {
   const map = {
-    views: 'icon-hand',
-    leads: 'icon-user',
-    opps: 'icon-wallet',
-    orders: 'icon-doc',
-    paid: 'icon-doc',
+    views: 'icon-view',
+    leads: 'icon-lead',
+    opps: 'icon-lead',
+    orders: 'icon-view',
+    paid: 'icon-view',
   }
   return map[key] || ''
 }
@@ -36,37 +37,55 @@ const getIconClass = (key) => {
       <table class="ms-table">
         <thead>
           <tr>
+            <!--  Set up có filterable là rowspan là 1 -->
             <th
               v-for="(col, idx) in columns"
               :key="idx"
+              :style="{ width: col.width || 'auto' }"
               :rowspan="col.filterable ? 1 : 2"
-              :style="{
-                width: col.width,
-                minWidth: col.width,
-                textAlign: 'center',
-              }"
-              :class="col.filterable ? 'header-title' : 'header-merged'"
+              :class="col.filterable ? 'header-title-filter' : 'header-title'"
             >
-              <!-- Nếu KHÔNG filter được -->
+              <!-- Không có filter -->
               <template v-if="!col.filterable">
-                {{ col.label }}
-                <i class="icon-sort">⇅</i>
+                <div style="display: flex; justify-content: flex-start; align-items: center">
+                  {{ col.label }}
+                  <i class="icon-sort">⇅</i>
+                </div>
               </template>
 
-              <!-- Nếu CÓ filter -->
+              <!-- Có filter -->
               <template v-else>
-                <div class="display-flex">
-                  <div>{{ col.label }}</div>
-                  <div class="icon-test"></div>
+                <div
+                  style="
+                    height: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: #f0f2f4;
+                  "
+                >
+                  <div style="display: flex; justify-content: space-between; gap: 5px">
+                    {{ col.label }}
+                    <i class="icon-sort">⇅</i>
+                  </div>
                 </div>
+                <!-- <i class="icon-sort">⇅</i> -->
               </template>
             </th>
           </tr>
 
-          <!-- Dòng filter -->
+          <!--Vòng for chạy các ô filter -->
           <tr>
-            <th v-for="(col, idx) in columns" :key="'filter-' + idx" class="header-filter">
-              <div v-if="col.filterable" class="icon-test"></div>
+            <th
+              v-for="(col, idx) in columns.filter((c) => c.filterable)"
+              :key="'filter-' + idx"
+              class="header-filter"
+            >
+              <!-- <ms-button icon="icon-filter" /> -->
+              <!-- {{ idx }} -->
+              <div class="filter-icon-wrapper">
+                <div class="icon-filter" style="width: 10px; height: 10px"></div>
+              </div>
             </th>
           </tr>
         </thead>
@@ -76,18 +95,22 @@ const getIconClass = (key) => {
             <td
               v-for="(col, colIndex) in columns"
               :key="colIndex"
+              :style="{ width: col.width || 'auto' }"
               :class="col.align || 'text-left'"
             >
-              <div v-if="col.type === 'link'" class="cell-link-group">
-                <a :href="row[col.key]" target="_blank" class="cell-link">{{ row[col.key] }}</a>
-                <div class="hover-actions">
-                  <i class="action-icon icon-copy" title="Sao chép"></i>
-                  <i class="action-icon icon-share" title="Chia sẻ"></i>
+              <div v-if="col.type === 'link'" class="cell-link-group display-flex">
+                <a :href="row[col.key]" class="cell-link">{{ row[col.key] }}</a>
+                <div
+                  class="cell-link-actions display-flex justify-content-flex-end"
+                  style="gap: 15px"
+                >
+                  <div class="icon-copy"></div>
+                  <div class="icon-share active" style="width: 20px; height: 20px"></div>
                 </div>
               </div>
-
+              <!--  -->
               <div v-else-if="col.type === 'metric'" class="cell-metric">
-                <i :class="['metric-icon', getIconClass(col.key)]"></i>
+                <div :class="getIconClass(col.key)"></div>
                 <span class="metric-value">{{ row[col.key] }}</span>
               </div>
 
@@ -98,6 +121,7 @@ const getIconClass = (key) => {
           </tr>
         </tbody>
 
+        <!-- Footer -->
         <tfoot v-if="summary">
           <tr class="summary-row">
             <td
@@ -108,7 +132,7 @@ const getIconClass = (key) => {
               <span v-if="index === 0" class="font-bold">Tổng</span>
 
               <div v-else-if="col.type === 'metric'" class="cell-metric">
-                <i :class="['metric-icon', getIconClass(col.key)]"></i>
+                <i :class="getIconClass(col.key)"></i>
                 <span class="font-bold">{{ summary[col.key] || 0 }}</span>
               </div>
             </td>
@@ -144,6 +168,7 @@ const getIconClass = (key) => {
   background: #fff;
   font-family: Arial, sans-serif;
   font-size: 13px;
+  /* padding-left: 100px; */
 }
 .table-scroll-area {
   flex: 1;
@@ -153,19 +178,22 @@ const getIconClass = (key) => {
   width: 100%;
   border-collapse: collapse;
   color: #1f1f1f;
+  table-layout: fixed;
 }
 
-/* --- BORDERS & SPACING --- */
 th,
 td {
   border-right: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
-  padding: 0 10px;
+  /* padding: 0 10px; */
 }
-th:last-child,
+.title {
+  background: red;
+}
+/* th:last-child,
 td:last-child {
   border-right: none;
-}
+} */
 
 /* --- HEADER STYLES --- */
 thead {
@@ -176,27 +204,28 @@ thead {
 }
 
 /* 1. Ô gộp (Ngày tạo, Tiêu đề) */
-.header-merged {
-  background-color: #f2f2f2;
+/* .header-merged {
+  background-color: red;
+  background: red;
   font-weight: 700;
   vertical-align: middle; /* Căn giữa dọc */
-  z-index: 11;
-  border-bottom: 1px solid #e0e0e0; /* Viền dưới khép kín */
-}
+/* z-index: 11;
+  border-bottom: 1px solid #e0e0e0; Viền dưới khép kín */
+/* } */
 
 /* 2. Ô tiêu đề thường (Dòng 1) */
 .header-title {
-  background-color: #f2f2f2;
+  background-color: #f0f2f4;
   height: 34px;
   font-weight: 700;
-  border-bottom: 1px solid #ccc;
+  /* border-bottom: 1px solid #ccc; */
 }
 
 /* 3. Ô Filter (Dòng 2) */
 .header-filter {
   background-color: #fff;
-  height: 40px;
-  padding: 4px;
+  height: 30px;
+  /* padding: 4px; */
 }
 .filter-box {
   display: flex;
@@ -205,6 +234,16 @@ thead {
   height: 30px;
   padding: 0 4px;
   background: #fff;
+}
+.filter-icon-wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-right: 0.5px gray solid;
+  opacity: 0.4;
+  width: 30px;
+  padding: 4px;
+  cursor: pointer;
 }
 .filter-op {
   font-size: 11px;
@@ -249,15 +288,24 @@ tr:hover td {
 .cell-link-group {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* width: 100%; */
+  gap: 8px;
 }
+
 .cell-link {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: #0075ff;
   text-decoration: none;
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 500;
+}
+.cell-link-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0; /* Quan trọng để icon không co khi link dài */
 }
 .hover-actions {
   display: none;

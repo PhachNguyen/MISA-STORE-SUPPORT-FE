@@ -8,10 +8,10 @@ const columns = [
   {
     key: 'link',
     label: 'Link chia sẻ',
-    width: '250px',
+    width: '225px',
     align: 'text-left',
     type: 'link',
-    filterable: true,
+    filterable: false,
   },
 
   // Các cột số liệu (Metric)
@@ -21,7 +21,7 @@ const columns = [
 
   // Các cột đơn hàng
   { key: 'orders', label: 'ĐH trực tiếp', width: '110px', type: 'metric', filterable: true },
-  { key: 'paid', label: 'ĐH TT chưa thanh toán', width: '140px', type: 'metric', filterable: true },
+  { key: 'paid', label: 'ĐH TT chưa thanh toán', width: '200px', type: 'metric', filterable: true },
 ]
 
 // 2. Dữ liệu bảng (Rows)
@@ -29,7 +29,7 @@ const tableData = [
   {
     date: '29/08/2025',
     title: 'Quy định về hóa đơn...',
-    link: 'https://amis.misa.vn/afs/B-117',
+    link: 'https://www.google.com/search?q=link+d%C3%A0i&rlz=1C1CHBD_viVN1044VN1044&oq=link+d%C3%A0i+&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDE1MzFqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8',
     views: 2,
     leads: 0,
     opps: 0,
