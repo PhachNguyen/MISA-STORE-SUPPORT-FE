@@ -19,7 +19,8 @@
   align-items: center;
   width: 100%;
   padding: 0 20px;
-  /* position: fixed; */
+  position: fixed;
+  top: 0;
 }
 
 /* GROUP LEFT */

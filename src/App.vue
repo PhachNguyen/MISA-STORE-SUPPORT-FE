@@ -23,11 +23,12 @@ html {
   box-sizing: border-box;
   font-family: 'Inter', Helvetica, Arial, sans-serif;
   font-size: 13px;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 .container {
   width: 100%;
+  /* overflow-y: auto; */
   /*  Lỗi fix sau */
   height: 100vh;
   background-color: #f2f2f2;
@@ -35,7 +36,11 @@ html {
     padding: 20px; */
 }
 .wrapper {
+  overflow-y: hidden;
   margin: 10px;
+  /*  Set up cho header position fixed */
+  padding-top: 45px;
+
   /* width: 90%; */
 }
 </style>

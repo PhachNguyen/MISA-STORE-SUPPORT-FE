@@ -53,10 +53,12 @@ import MsButton from '@/components/ms-button/MsButton.vue'
 import Search from '@/components/ms-search/Search.vue'
 import MSDate from '@/components/ms-date/MSDate.vue'
 import LinkAffiliateCard from '@/components/ms-linkcard/LinkAffiliateCard.vue'
+import imgLink from '@/assets/images/ms-image-link-2.webp'
+import imgLink1 from '@/assets/images/ky-so-tu-xa-1.png'
 // Mock Data (Dữ liệu giả để hiển thị)
 const listData = ref([
   {
-    image: '../assets/images/ms-image-link-2.webp',
+    image: imgLink,
     title: 'Giải Pháp Quản Lý Bán Hàng Cho Doanh nghiệp',
     link: '/landing-page-don-hang',
     desc: 'Khai thác triệt để data khách hàng, quản lý toàn diện đội sales. AMIS CRM - Thương hiệu quốc gia Việt Nam 2024 > Dùng thử miễn phí full tính năng',
@@ -64,9 +66,7 @@ const listData = ref([
     isNew: true,
   },
   {
-    image:
-      'https://media.istockphoto.com/id/1199723562/vector/invoice-flat-design-icon-blue-and-yellow-colors.jpg?s=612x612&w=0&k=20&c=p47nBwz-Vcy0O-Q1xT6IFr5tqQ2K5H2YtVwQxX7hX9M=',
-    title: 'Quy định về hóa đơn từ 5 triệu trở lên phải thanh toán không dùng tiền mặt',
+    image: imgLink1,
     link: 'https://amis.misa.vn/afs/B-1170/25134/quy-dinh-moi-ve-hoa-don/',
     desc: 'Căn cứ theo luật thuế GTGT 2024 và Nghị định 181/2025/NĐ-CP thì các hóa đơn từ 05 triệu trở lên sẽ phải thanh toán chuyển khoản.',
     date: '29/08/2025',
@@ -79,7 +79,9 @@ const listData = ref([
 .page-content {
   background: #f4f5f8;
   /* padding: 20px; */
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  height: calc(100vh - 100px); /*Trừ đi header và một số margin linh tinh */
+  overflow: auto;
 }
 
 .card-section-create-link,

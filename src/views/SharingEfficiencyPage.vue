@@ -26,7 +26,11 @@ const columns = [
 
   // Các cột đơn hàng
   { key: 'orders', label: 'ĐH trực tiếp', width: '110px', type: 'metric', filterable: true },
+  { key: 'orders', label: 'ĐH trực tiếp', width: '110px', type: 'metric', filterable: true },
+  { key: 'orders', label: 'ĐH trực tiếp', width: '110px', type: 'metric', filterable: true },
   { key: 'paid', label: 'ĐH TT chưa thanh toán', width: '200px', type: 'metric', filterable: true },
+  { key: 'orders', label: 'ĐH trực tiếp', width: '110px', type: 'metric', filterable: true },
+  { key: 'orders', label: 'ĐH trực tiếp', width: '110px', type: 'metric', filterable: true },
 ]
 // Show modal
 const showModal = ref(false)
@@ -36,7 +40,7 @@ const selectedDetail = ref(null)
 const showOrderPopup = ref(false)
 // EVENT: Nhận open-detail từ table
 const handleOpenDetail = ({ column, row }) => {
-  if (column.key === 'leads') {
+  if (column.key === 'opps' || column.key === 'paid') {
     selectedDetail.value = { column, row }
     showLeadsPopup.value = true
   }
@@ -92,6 +96,9 @@ const tableData = [
     leads: 0,
     opps: 0,
     orders: 0,
+    orders: 0,
+    orders: 0,
+    orders: 0,
     paid: 0,
   },
 ]
@@ -110,13 +117,13 @@ const summaryData = {
 </script>
 
 <template>
-  <div class="container đisplay-flex flex-column">
+  <div class="container đisplay-flex flex-column flex1">
     <div class="content-wrapper display-flex align-items-center">
       <span class="label">Hiệu quả chia sẻ</span>
       <i class="fa-solid fa-rotate-right refresh"></i>
     </div>
-    <div class="display-flex justify-content-space-between">
-      <div class="display-flex">
+    <div class="display-flex justify-content-space-between" style="margin-bottom: 20px">
+      <div class="display-flex justify-content-space-between" style="gap: 20px">
         <search label="Tìm kiếm theo tiêu đề" />
         <m-s-date />
       </div>
@@ -128,7 +135,33 @@ const summaryData = {
       :summary="summaryData"
       @open-detail="handleOpenDetail"
     />
-    <!-- OVERLAY -->
+
+    <div class="footer">
+      <div class="footer-left">
+        Tổng số: <b>{{ tableData.length }}</b> link chia sẻ
+      </div>
+
+      <div class="footer-right">
+        <div class="page-size-wrapper">
+          <select class="page-size-select">
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+        </div>
+
+        <div class="page-range">Từ 1 đến {{ tableData.length }}</div>
+
+        <div class="page-controls">
+          <div class="icon-btn disabled" title="Trang trước">
+            <i class="arrow-left"></i>
+          </div>
+          <div class="icon-btn disabled" title="Trang sau">
+            <i class="arrow-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
     <Overlay v-model:modalValue="showModal" />
     <LeadModal v-model:modalValue="showLeadsPopup" :detailData="selectedDetail" />
     <order-modal v-model:modalValue="showOrderPopup" />
@@ -137,6 +170,10 @@ const summaryData = {
 <style scoped>
 .container {
   background: white;
+  padding: 0px 10px;
+  overflow: auto;
+  /*  Set height tối đa là 100vh */
+  /* min-height: 100vh; */
   /* width: 90%; */
   /* gap: 100px; */
 }
@@ -159,5 +196,105 @@ const summaryData = {
 .refresh {
   color: gray;
   cursor: pointer;
+}
+/* =========================
+   FOOTER STYLES
+========================= */
+.footer {
+  /* Sticky: Giữ footer luôn ở đáy khi cuộn bảng */
+  position: sticky;
+  bottom: 0;
+  /* z-index: 10; */
+
+  height: 56px;
+  padding: 0 16px;
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size: 13px;
+  color: #111;
+}
+
+/* Bên trái */
+.footer-left b {
+  font-weight: 700;
+}
+
+/* Bên phải */
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Dropdown Select */
+.page-size-select {
+  height: 32px;
+  padding: 0 4px;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  min-width: 50px;
+  color: #1f1f1f;
+}
+.page-size-select:focus {
+  border-color: #2ca01c; /* Xanh MISA */
+}
+
+/* Text Range */
+.page-range {
+  font-weight: 500;
+}
+
+/* Nút Next/Prev */
+.page-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.icon-btn:not(.disabled):hover {
+  background-color: #f0f0f0;
+}
+
+/* Vẽ mũi tên bằng CSS */
+.arrow-left,
+.arrow-right {
+  border: solid #666;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.arrow-left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.arrow-right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+/* Trạng thái Disabled */
+.icon-btn.disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 </style>

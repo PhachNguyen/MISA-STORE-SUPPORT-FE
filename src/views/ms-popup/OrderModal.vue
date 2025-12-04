@@ -44,11 +44,11 @@ const leadsData = []
           <div class="header">
             <div class="header-left">
               <span class="title">Danh sách tiềm năng</span>
-              <div class="icon-refresh" title="Lấy lại dữ liệu"></div>
+              <!-- <div class="icon-refresh" title="Lấy lại dữ liệu"></div> -->
             </div>
 
             <div class="header-actions">
-              <div class="icon-help" title="Giúp đỡ"></div>
+              <!-- <div class="icon-help" title="Giúp đỡ"></div> -->
               <div class="icon-close" @click="close" title="Đóng">✕</div>
             </div>
           </div>

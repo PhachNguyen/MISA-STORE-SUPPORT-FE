@@ -83,7 +83,7 @@ const handleTabChange = (key) => {
 }
 .main-content {
   background: #f2f2f2;
-  width: 200px;
+  overflow: hidden;
 }
 
 .content {

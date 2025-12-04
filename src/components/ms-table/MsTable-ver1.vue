@@ -162,28 +162,6 @@ const getIconClass = (key) => {
         </tfoot>
       </table>
     </div>
-
-    <div class="misa-paginationisa-pagination">
-      <!-- Select page size -->
-      <div class="page-size-box">
-        <select v-model="pageSize" class="page-size-select">
-          <option v-for="size in [10, 20, 50]" :key="size" :value="size">
-            {{ size }}
-          </option>
-        </select>
-      </div>
-
-      <!-- Navigation -->
-      <div class="page-nav">
-        <span class="nav-btn disabled">«</span>
-        <span class="nav-btn disabled">‹</span>
-
-        <span class="page-range">Từ 1 đến {{ data.length }}</span>
-
-        <span class="nav-btn disabled">›</span>
-        <span class="nav-btn disabled">»</span>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -202,20 +180,22 @@ const getIconClass = (key) => {
   min-width: 0;
   /* padding-left: 10px; */
 }
-/* --- LAYOUT --- */
+/* layout */
 .table-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  /* flex: 1; */
+  height: 400px;
   border: 1px solid #e0e0e0;
   background: #fff;
-  font-family: Arial, sans-serif;
   font-size: 13px;
+  /* overflow: auto; */
   /* padding-left: 100px; */
 }
 .table-scroll-area {
   flex: 1;
   overflow: auto;
+  height: 200px;
 }
 .ms-table {
   width: 100%;
@@ -381,49 +361,28 @@ tr:hover .hover-actions {
   background-position: center;
   opacity: 0.6;
 }
+.summary-row {
+  background: #f0f2f4;
+}
 
 /* Footer */
 /* Pagination Wrapper */
-.misa-pagination {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  border-top: 1px solid #e0e0e0;
-  background: #fff;
-  padding: 0 16px;
-  gap: 12px;
-  font-size: 13px;
-  color: #1f1f1f;
+.pagination {
+  height: 40px;
 }
-
-/* Select box size */
-.page-size-box select {
-  height: 30px;
-  padding: 0 8px;
+.page-size-select {
+  height: 32px;
+  padding: 0 10px;
   border: 1px solid #d0d0d0;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 13px;
-  background: #fff;
+  background: white;
   cursor: pointer;
-  outline: none;
 }
-
-.page-size-box select:hover {
-  border-color: #999;
-}
-
-/* Navigation buttons */
-.page-nav {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .nav-btn {
   font-size: 16px;
+  color: #444;
   padding: 2px 4px;
-  color: #555;
   cursor: pointer;
   user-select: none;
 }
@@ -431,10 +390,5 @@ tr:hover .hover-actions {
 .nav-btn.disabled {
   opacity: 0.4;
   cursor: not-allowed;
-}
-
-.page-range {
-  margin: 0 6px;
-  font-weight: 500;
 }
 </style>
