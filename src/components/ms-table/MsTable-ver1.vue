@@ -17,7 +17,18 @@ const props = defineProps({
     default: () => null,
   },
 })
-
+//  Khởi tạo emit
+const emit = defineEmits(['open-detail'])
+function handleClick(col, row) {
+  // const payload = { column: col, row: row }
+  emit('open-detail', {
+    column: col,
+    row: row,
+  })
+  // console.log(payload.column)
+  // console.log(row)
+  // debugger
+}
 // set Icon
 const getIconClass = (key) => {
   const map = {
@@ -116,7 +127,11 @@ const getIconClass = (key) => {
                 </div>
               </div>
               <!--  -->
-              <div v-else-if="col.type === 'metric'" class="cell-metric">
+              <div
+                v-else-if="col.type === 'metric'"
+                class="cell-metric"
+                @click="handleClick(col, row)"
+              >
                 <div :class="getIconClass(col.key)"></div>
                 <span class="metric-value">{{ row[col.key] }}</span>
               </div>
@@ -224,7 +239,7 @@ th {
 thead {
   position: sticky;
   top: 0;
-  z-index: 10;
+  /* z-index: 10; */
   background: #fff;
 }
 

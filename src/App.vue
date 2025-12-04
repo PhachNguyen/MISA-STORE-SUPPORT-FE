@@ -36,5 +36,6 @@ html {
 }
 .wrapper {
   margin: 10px;
+  /* width: 90%; */
 }
 </style>

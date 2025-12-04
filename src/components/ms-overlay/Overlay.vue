@@ -1,65 +1,40 @@
-<template>
-  <!-- Chỉ render khi visible -->
-  <teleport to="body">
-    <div
-      v-if="modelValue"
-      class="overlay-backdrop"
-      :style="{ zIndex }"
-      @click="handleBackdropClick"
-    >
-      <!-- Nội dung overlay -->
-      <div class="overlay-content" :class="contentClass" @click.stop>
-        <slot />
-      </div>
-    </div>
-  </teleport>
-</template>
-
 <script setup>
+//  Định nghĩa props
 const props = defineProps({
-  modelValue: {
+  modalValue: {
     type: Boolean,
     default: false,
   },
-  closable: {
-    type: Boolean,
-    default: true, // click ra ngoài để tắt
-  },
-  zIndex: {
-    type: Number,
-    default: 1000,
-  },
-  contentClass: {
-    type: String,
-    default: '',
-  },
 })
+//  Định nghĩa emit
+const emit = defineEmits(['update:modalValue'])
 
-const emit = defineEmits(['update:modelValue', 'close'])
-
-const handleBackdropClick = () => {
-  if (!props.closable) return
-  emit('update:modelValue', false)
-  emit('close')
-}
+//  Function close
+const close = () => emit('update:modalValue', false)
 </script>
-
+<template>
+  <div class="overlay" id="overlay" :class="{ show: modalValue }" @click="close"></div>
+</template>
 <style scoped>
-.overlay-backdrop {
+.overlay {
   position: fixed;
-  inset: 0; /* top: 0; right: 0; bottom: 0; left: 0 */
-  background: rgba(0, 0, 0, 0.4); /* nền mờ mờ */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
+  background: #818283;
+  /* Set up là none  */
+  display: none;
+  z-index: 1000;
+  /* Làm mờ nền  */
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+  /*  độ ẩn trong suốt */
+  opacity: 0;
+  /* Làm hiệu ứng mượt */
+  transition: opacity 0.3s ease;
 }
-
-.overlay-content {
-  background: #fff;
-  border-radius: 8px;
-  padding: 16px 20px;
-  max-width: 600px;
-  width: 100%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* Hiển thị overlay */
+.overlay.show {
+  display: block;
+  z-index: 1000;
 }
 </style>
+>
