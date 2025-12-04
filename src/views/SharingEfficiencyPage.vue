@@ -1,14 +1,15 @@
 <script setup>
 import MsTableVer1 from '@/components/ms-table/MsTable-ver1.vue'
-
+import MSDate from '@/components/ms-date/MSDate.vue'
+import Search from '@/components/ms-search/Search.vue'
 // 1. Cấu hình Cột (Rất quan trọng)
 const columns = [
   { key: 'date', label: 'Ngày tạo', width: '100px', align: 'text-center', filterable: false }, // -> Ô xám
-  { key: 'title', label: 'Tiêu đề', width: '250px', align: 'text-left', filterable: false }, // -> Ô xám
+  { key: 'title', label: 'Tiêu đề', width: '100px', align: 'text-left', filterable: false }, // -> Ô xám
   {
     key: 'link',
     label: 'Link chia sẻ',
-    width: '225px',
+    width: '255px',
     align: 'text-left',
     type: 'link',
     filterable: false,
@@ -56,6 +57,16 @@ const tableData = [
     orders: 0,
     paid: 0,
   },
+  {
+    date: '13/03/2025',
+    title: 'Giải pháp chữ ký số',
+    link: 'https://share.misa.vn/afs/B-117',
+    views: 4,
+    leads: 0,
+    opps: 0,
+    orders: 0,
+    paid: 0,
+  },
 ]
 
 // 3. Dữ liệu Tổng (Footer)
@@ -69,11 +80,40 @@ const summaryData = {
 </script>
 
 <template>
-  <div style="height: 100vh; padding: 20px; background-color: #f4f5f8">
-    <div style="background: white; padding: 16px; border-radius: 4px; height: 600px">
-      <h3 style="margin: 0 0 16px 0">Hiệu quả chia sẻ</h3>
-
-      <ms-table-ver1 :columns="columns" :data="tableData" :summary="summaryData" />
+  <div class="container đisplay-flex flex-column">
+    <div class="content-wrapper display-flex">
+      <span class="label">Hiệu quả chia sẻ</span>
+      <div class="icon-refresh"></div>
     </div>
+    <div class="display-flex justify-content-space-between">
+      <div class="display-flex">
+        <search label="Tìm kiếm theo tiêu đề" />
+        <m-s-date />
+      </div>
+      <div class="title">Đồng bộ dữ liệu từ CRM</div>
+    </div>
+    <ms-table-ver1 :columns="columns" :data="tableData" :summary="summaryData" />
   </div>
 </template>
+<style scoped>
+.container {
+  background: white;
+  /* gap: 100px; */
+}
+.content-wrapper {
+  gap: 10px;
+  padding: 10px;
+}
+.label {
+  font-size: 18px;
+
+  font-weight: 600;
+}
+.title {
+  padding: 10px;
+  border: 0.5px solid #e0e0e0;
+  color: #3fbf85;
+  font-weight: 600;
+  background: #e4f8ed;
+}
+</style>

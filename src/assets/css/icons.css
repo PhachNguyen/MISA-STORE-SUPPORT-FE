@@ -109,3 +109,8 @@
   width: 20px;
   height: 20px;
 }
+.icon-copy-action {
+  background: url('../icons/Icon.svg') no-repeat -321px -62px;
+  width: 17px;
+  height: 16px;
+}

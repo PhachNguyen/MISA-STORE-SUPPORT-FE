@@ -47,7 +47,14 @@ const getIconClass = (key) => {
             >
               <!-- Không có filter -->
               <template v-if="!col.filterable">
-                <div style="display: flex; justify-content: flex-start; align-items: center">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    padding-left: 10px;
+                  "
+                >
                   {{ col.label }}
                   <i class="icon-sort">⇅</i>
                 </div>
@@ -113,8 +120,8 @@ const getIconClass = (key) => {
                 <div :class="getIconClass(col.key)"></div>
                 <span class="metric-value">{{ row[col.key] }}</span>
               </div>
-
-              <div v-else>
+              <!--  Text -->
+              <div v-else class="cell-title">
                 {{ row[col.key] }}
               </div>
             </td>
@@ -141,24 +148,45 @@ const getIconClass = (key) => {
       </table>
     </div>
 
-    <div class="pagination-footer">
-      <div class="total-info">
-        Tổng số: <b>{{ data.length }}</b> bản ghi
-      </div>
-      <div class="paging-control">
-        <select class="page-size-select">
-          <option>10</option>
-          <option>20</option>
+    <div class="misa-paginationisa-pagination">
+      <!-- Select page size -->
+      <div class="page-size-box">
+        <select v-model="pageSize" class="page-size-select">
+          <option v-for="size in [10, 20, 50]" :key="size" :value="size">
+            {{ size }}
+          </option>
         </select>
-        <span class="paging-nav disabled">Trước</span>
-        <span class="paging-text">Từ 1 đến {{ data.length }}</span>
-        <span class="paging-nav disabled">Sau</span>
+      </div>
+
+      <!-- Navigation -->
+      <div class="page-nav">
+        <span class="nav-btn disabled">«</span>
+        <span class="nav-btn disabled">‹</span>
+
+        <span class="page-range">Từ 1 đến {{ data.length }}</span>
+
+        <span class="nav-btn disabled">›</span>
+        <span class="nav-btn disabled">»</span>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+/* Demo icon bằng màu */
+.icon-copy {
+  background: #e0e0e0;
+}
+.cell-title {
+  /* Ẩn content nếu dài quá  */
+  overflow: hidden;
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+  display: block;
+  min-width: 0;
+  /* padding-left: 10px; */
+}
 /* --- LAYOUT --- */
 .table-container {
   display: flex;
@@ -181,20 +209,17 @@ const getIconClass = (key) => {
   table-layout: fixed;
 }
 
-th,
 td {
   border-right: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
-  /* padding: 0 10px; */
+  padding: 0 10px;
+  min-width: 0;
+  /* white-space: nowrap; */
 }
-.title {
-  background: red;
+th {
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
 }
-/* th:last-child,
-td:last-child {
-  border-right: none;
-} */
-
 /* --- HEADER STYLES --- */
 thead {
   position: sticky;
@@ -213,7 +238,7 @@ thead {
   border-bottom: 1px solid #e0e0e0; Viền dưới khép kín */
 /* } */
 
-/* 2. Ô tiêu đề thường (Dòng 1) */
+/*Ô tiêu đề thường */
 .header-title {
   background-color: #f0f2f4;
   height: 34px;
@@ -221,7 +246,7 @@ thead {
   /* border-bottom: 1px solid #ccc; */
 }
 
-/* 3. Ô Filter (Dòng 2) */
+/* 3. Ô Filter */
 .header-filter {
   background-color: #fff;
   height: 30px;
@@ -288,6 +313,7 @@ tr:hover td {
 .cell-link-group {
   display: flex;
   align-items: center;
+  padding-left: 10px;
   /* width: 100%; */
   gap: 8px;
 }
@@ -297,13 +323,14 @@ tr:hover td {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: #0075ff;
+  color: black;
   text-decoration: none;
   font-weight: 500;
 }
 .cell-link-actions {
   display: flex;
   align-items: center;
+  padding-right: 10px;
   gap: 10px;
   flex-shrink: 0; /* Quan trọng để icon không co khi link dài */
 }
@@ -322,13 +349,6 @@ tr:hover .hover-actions {
   border-radius: 2px;
   background-color: #fff;
 }
-/* Demo icon bằng màu */
-.icon-copy {
-  background: #e0e0e0;
-}
-.icon-share {
-  background: #d0d0d0;
-}
 
 /* Metric */
 .cell-metric {
@@ -346,49 +366,60 @@ tr:hover .hover-actions {
   background-position: center;
   opacity: 0.6;
 }
-/* Demo icon bằng emoji - Hãy thay URL ảnh thật vào đây */
-.icon-hand::before {
-  content: '👆';
-}
-.icon-user::before {
-  content: '👤';
-}
-.icon-wallet::before {
-  content: '💼';
-}
-.icon-doc::before {
-  content: '📄';
-}
 
-/* --- FOOTER & PAGINATION --- */
-tfoot {
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
-  background-color: #f8f8f8;
-}
-.summary-row td {
-  background-color: #eceef1;
-  border-top: 2px solid #ccc;
-}
-
-.pagination-footer {
-  height: 46px;
+/* Footer */
+/* Pagination Wrapper */
+.misa-pagination {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   border-top: 1px solid #e0e0e0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
   background: #fff;
-}
-.paging-control {
-  display: flex;
-  gap: 10px;
-  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
   font-size: 13px;
+  color: #1f1f1f;
 }
-.paging-nav.disabled {
-  color: #ccc;
+
+/* Select box size */
+.page-size-box select {
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+}
+
+.page-size-box select:hover {
+  border-color: #999;
+}
+
+/* Navigation buttons */
+.page-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-btn {
+  font-size: 16px;
+  padding: 2px 4px;
+  color: #555;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-btn.disabled {
+  opacity: 0.4;
   cursor: not-allowed;
+}
+
+.page-range {
+  margin: 0 6px;
+  font-weight: 500;
 }
 </style>

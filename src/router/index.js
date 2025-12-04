@@ -6,7 +6,7 @@ import OrderLandingPage from '@/views/OrderLandingPage.vue'
 const routes = [
   { path: '/share', component: SharePage },
   { path: '/sharing-efficiencyPage', component: SharingEfficiencyPage },
-  { path: '/', redirect: '/chia-se' },
+  { path: '/', redirect: '/share' },
   {
     path: '/landing-page-don-hang', // Đây là link trên trình duyệt
     name: 'OrderLandingPage',
