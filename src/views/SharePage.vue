@@ -90,6 +90,8 @@ import LinkAffiliateCard from '@/components/ms-linkcard/LinkAffiliateCard.vue'
 import MsToast from '@/components/ms-toast/MsToast.vue'
 import SuccessLink from '@/views/SuccessLink.vue'
 import DefaultImage from '@/assets/images/ms-image-link-2.webp'
+//  Api
+import AffiliateLinkAPI from '@/apis/components/todos/AffiliateLinkAPI'
 
 const isCreated = ref(false) // Biến quyết định hiển thị Form hay Success
 const currentGeneratedLink = ref('') // Lưu link vừa tạo để hiển thị lên màn hình Success
@@ -145,45 +147,91 @@ onMounted(() => {
 })
 
 //  load dữ liệu từ LocalStorage
-const loadData = () => {
-  const data = localStorage.getItem('listLinks')
-  if (data) {
-    listLinks.value = JSON.parse(data)
-  } else {
-    // Dữ liệu mẫu nếu chưa có gì
-    listLinks.value = []
+// const loadData = () => {
+//   const data = localStorage.getItem('listLinks')
+//   if (data) {
+//     listLinks.value = JSON.parse(data)
+//   } else {
+//     // Dữ liệu mẫu nếu chưa có gì
+//     listLinks.value = []
+//   }
+// }
+//  Load dữ liệu từ BE
+const loadData = async () => {
+  try {
+    const res = await AffiliateLinkAPI.paging({
+      pageNumber: 1,
+      pageSize: 2,
+    })
+
+    listLinks.value = res.data.data // Tùy theo cấu trúc BE của bạn
+    debugger
+  } catch (err) {
+    console.error('Lỗi load dữ liệu:', err)
   }
 }
 
 // Hàm xử lý tạo link
-const handleCreateLink = () => {
-  //  Validate
-  // if (!formData.value.link || !formData.value.title) {
-  //   showToast('warning', 'Vui lòng nhập đầy đủ thông tin!')
-  //   return
-  // }
+// const handleCreateLink = () => {
+//   //  Validate
+//   // if (!formData.value.link || !formData.value.title) {
+//   //   showToast('warning', 'Vui lòng nhập đầy đủ thông tin!')
+//   //   return
+//   // }
+//   validate()
+//   // Tạo object lưu trữ
+//   const newLinkItem = {
+//     id: Date.now(),
+//     title: formData.value.title,
+//     link: formData.value.link,
+//     desc: 'Link chia sẻ được tạo tự động',
+//     date: new Date().toLocaleDateString('vi-VN'),
+//     image: DefaultImage, // Hoặc ảnh mặc định
+//   }
+
+//   // Lưu vào LocalStorage
+//   const currentList = JSON.parse(localStorage.getItem('listLinks')) || []
+//   currentList.unshift(newLinkItem) // Thêm lên đầu
+//   localStorage.setItem('listLinks', JSON.stringify(currentList))
+
+//   // Cập nhật giao diện danh sách bên dưới ngay lập tức
+//   listLinks.value = currentList
+//   isCreated.value = true
+
+//   //  Hiện Toast thông báo
+//   showToast('success', 'Tạo link chia sẻ thành công!')
+// }
+//  Xử lý tạo link với API
+const handleCreateLink = async () => {
   validate()
-  // Tạo object lưu trữ
-  const newLinkItem = {
-    id: Date.now(),
-    title: formData.value.title,
-    link: formData.value.link,
-    desc: 'Link chia sẻ được tạo tự động',
-    date: new Date().toLocaleDateString('vi-VN'),
-    image: DefaultImage, // Hoặc ảnh mặc định
+
+  // Nếu có lỗi thì không gọi API
+  if (errors.value.link || errors.value.title) return
+
+  const payload = {
+    affiliate_Link_Name: formData.value.title,
+    // link: formData.value.link, Tạm thời chưa có trường link trong BE
+    affiliate_Link_Code: 'string',
+    affiliate_Link_System_Id: '33d64934-82f3-4b01-b202-6c732cce9871',
+    affiliate_Link_Id: crypto.randomUUID(),
   }
+  debugger
+  try {
+    const res = await AffiliateLinkAPI.generateLink(payload)
 
-  // Lưu vào LocalStorage
-  const currentList = JSON.parse(localStorage.getItem('listLinks')) || []
-  currentList.unshift(newLinkItem) // Thêm lên đầu
-  localStorage.setItem('listLinks', JSON.stringify(currentList))
+    // Lấy link trả về từ BE
+    currentGeneratedLink.value = res.data.link
 
-  // Cập nhật giao diện danh sách bên dưới ngay lập tức
-  listLinks.value = currentList
-  isCreated.value = true
+    // Load lại danh sách
+    await loadData()
 
-  //  Hiện Toast thông báo
-  showToast('success', 'Tạo link chia sẻ thành công!')
+    isCreated.value = true
+
+    showToast('success', 'Tạo link chia sẻ thành công!')
+  } catch (err) {
+    showToast('warning', 'Tạo link thất bại!')
+    console.error(err)
+  }
 }
 
 // Reset form
