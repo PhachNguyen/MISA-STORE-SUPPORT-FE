@@ -114,3 +114,40 @@
   width: 17px;
   height: 16px;
 }
+
+/* Toast */
+.icon-success {
+  mask: url('../icons/ICON-ms.svg') no-repeat -140px -942px;
+  background: white;
+  width: 20px;
+  height: 20px;
+}
+.icon-warning {
+  mask: url('../icons/Icon.svg') no-repeat -222px -102px;
+  background: white;
+  width: 16px;
+  height: 16px;
+}
+.icon-infor {
+  mask: url('../icons/Icon.svg') no-repeat -302px -82px;
+  background: #34b057;
+  width: 16px;
+  height: 16px;
+}
+.icon-error {
+  mask: url('../icons/ICON-ms.svg') no-repeat -164px -942px;
+  background: white;
+  width: 20px;
+  height: 20px;
+}
+.icon-close {
+  background: url('../icons/Icon.svg') no-repeat -146px -86px;
+  width: 8px;
+  height: 8px;
+}
+/* Text */
+.icon-infor-error {
+  background: url('../icons/ICON-ms.svg') no-repeat -145px -633px;
+  width: 16px;
+  height: 16px;
+}

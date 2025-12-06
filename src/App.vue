@@ -30,6 +30,7 @@ html {
   width: 100%;
   /* overflow-y: auto; */
   /*  Lỗi fix sau */
+  /*  Chiếm hết chiều cao màn hình  */
   height: 100vh;
   background-color: #f2f2f2;
   /* margin: 0 auto;

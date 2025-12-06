@@ -5,43 +5,59 @@
       :key="index"
       class="item-card display-flex align-items-center"
     >
-      <!-- image -->
       <div class="item-image">
         <img :src="item.image" alt="Affiliate image" />
       </div>
 
-      <!-- infor -->
       <div class="item-info">
         <div class="item-title">{{ item.title }}</div>
-        <a :href="item.link" class="item-link">
+        <a :href="item.link" class="item-link" target="_blank">
           {{ item.link }}
         </a>
         <div class="item-desc">{{ item.desc }}</div>
       </div>
 
       <div class="wrapper-card display-flex flex-column justify-content-space-between">
-        <!-- ACTION BUTTON -->
         <div class="item-actions">
           <ms-button label="Sao chép" type="primary" icon="icon-copy" />
 
-          <ms-button icon="icon-share active" type="share" />
+          <ms-button icon="icon-share active" type="share" @click="openSharePopup(item.link)" />
+
           <ms-button icon="icon-delete" type="delete" />
         </div>
-        <!--  Date -->
         <div class="item-date">29/08/2025</div>
       </div>
     </div>
+
+    <popup-share-link
+      v-if="showPopup"
+      :is-visible="showPopup"
+      :link="currentShareLink"
+      @close="showPopup = false"
+    />
   </div>
 </template>
-
 <script setup>
+import { ref } from 'vue'
 import MsButton from '../ms-button/MsButton.vue'
+// Import cái Popup vừa tạo (nhớ sửa đường dẫn cho đúng thư mục của bạn)
+import PopupShareLink from '@/views/ms-popup/PopupShareLink.vue'
+
 const props = defineProps({
   listData: {
     type: Array,
     default: () => [],
   },
 })
+
+// --- Logic cho Popup Share ---
+const showPopup = ref(false) // Biến tắt/bật popup
+const currentShareLink = ref('') // Biến lưu link của item đang được bấm
+
+const openSharePopup = (link) => {
+  currentShareLink.value = link // Lưu link của dòng được bấm
+  showPopup.value = true // Mở popup lên
+}
 </script>
 <style scoped>
 .list-container {

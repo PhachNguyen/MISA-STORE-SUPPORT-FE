@@ -5,7 +5,7 @@ import Search from '@/components/ms-search/Search.vue'
 import Overlay from '@/components/ms-overlay/Overlay.vue'
 import LeadModal from './ms-popup/LeadModal.vue'
 import OrderModal from './ms-popup/OrderModal.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 // 1. Cấu hình Cột (Rất quan trọng)
 const columns = [
   { key: 'date', label: 'Ngày tạo', width: '100px', align: 'text-center', filterable: false }, // -> Ô xám
@@ -32,6 +32,9 @@ const columns = [
   { key: 'orders', label: 'ĐH trực tiếp', width: '110px', type: 'metric', filterable: true },
   { key: 'orders', label: 'ĐH trực tiếp', width: '110px', type: 'metric', filterable: true },
 ]
+// Data
+// Ép kiểu
+const tableData = JSON.parse(localStorage.getItem('tableData'))
 // Show modal
 const showModal = ref(false)
 const showLeadsPopup = ref(null)
@@ -56,53 +59,6 @@ const handleOpenDetail = ({ column, row }) => {
 
   showModal.value = true
 }
-// 2. Dữ liệu bảng (Rows)
-const tableData = [
-  {
-    date: '29/08/2025',
-    title: 'Quy định về hóa đơn...',
-    link: 'https://www.google.com/search?q=link+d%C3%A0i&rlz=1C1CHBD_viVN1044VN1044&oq=link+d%C3%A0i+&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDE1MzFqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8',
-    views: 2,
-    leads: 0,
-    opps: 0,
-    orders: 0,
-    paid: 0,
-  },
-  {
-    date: '29/08/2025',
-    title: 'Luật thuế giá trị gia tăng',
-    link: 'https://amis.misa.vn/afs/B-117',
-    views: 1,
-    leads: 0,
-    opps: 0,
-    orders: 0,
-    paid: 0,
-  },
-  {
-    date: '13/03/2025',
-    title: 'Giải pháp chữ ký số',
-    link: 'https://share.misa.vn/afs/B-117',
-    views: 4,
-    leads: 0,
-    opps: 0,
-    orders: 0,
-    paid: 0,
-  },
-  {
-    date: '13/03/2025',
-    title: 'Giải pháp chữ ký số',
-    link: 'https://share.misa.vn/afs/B-117',
-    views: 4,
-    leads: 0,
-    opps: 0,
-    orders: 0,
-    orders: 0,
-    orders: 0,
-    orders: 0,
-    paid: 0,
-  },
-]
-
 // 3. Dữ liệu Tổng (Footer)
 const summaryData = {
   views: 8,
